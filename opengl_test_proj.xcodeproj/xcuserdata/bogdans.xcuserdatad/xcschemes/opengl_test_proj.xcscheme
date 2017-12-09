@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   version = "1.3">
+   <BuildAction>
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForRunning = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C7633A6A1FDC0A43000F7EAE"
+               BuildableName = "opengl_test_proj"
+               BlueprintName = "opengl_test_proj"
+               ReferencedContainer = "container:opengl_test_proj.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <LaunchAction
+      useCustomWorkingDirectory = "NO"
+      buildConfiguration = "Debug">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C7633A6A1FDC0A43000F7EAE"
+            BuildableName = "opengl_test_proj"
+            BlueprintName = "opengl_test_proj"
+            ReferencedContainer = "container:opengl_test_proj.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+   </LaunchAction>
+</Scheme>
