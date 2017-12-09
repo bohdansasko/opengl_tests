@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C7633A6F1FDC0A43000F7EAE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C7633A6E1FDC0A43000F7EAE /* main.cpp */; };
+		C7A543031FDC2A0F0085F4E4 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A543021FDC2A0F0085F4E4 /* libglfw.3.2.dylib */; };
+		C7A543301FDC33E70085F4E4 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = C7A543181FDC33D20085F4E4 /* glad.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,24 @@
 /* Begin PBXFileReference section */
 		C7633A6B1FDC0A43000F7EAE /* opengl_test_proj */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = opengl_test_proj; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7633A6E1FDC0A43000F7EAE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C7A543021FDC2A0F0085F4E4 /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.2.dylib; path = libs/glfw/3.2.1/lib/libglfw.3.2.dylib; sourceTree = "<group>"; };
+		C7A543141FDC33D20085F4E4 /* glad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glad.h; sourceTree = "<group>"; };
+		C7A543161FDC33D20085F4E4 /* khrplatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = khrplatform.h; sourceTree = "<group>"; };
+		C7A543181FDC33D20085F4E4 /* glad.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = glad.c; sourceTree = "<group>"; };
+		C7A5431C1FDC33D20085F4E4 /* glfw.rb */ = {isa = PBXFileReference; lastKnownFileType = text.script.ruby; path = glfw.rb; sourceTree = "<group>"; };
+		C7A5431D1FDC33D20085F4E4 /* COPYING.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING.txt; sourceTree = "<group>"; };
+		C7A543201FDC33D20085F4E4 /* glfw3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glfw3.h; sourceTree = "<group>"; };
+		C7A543211FDC33D20085F4E4 /* glfw3native.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glfw3native.h; sourceTree = "<group>"; };
+		C7A543221FDC33D20085F4E4 /* INSTALL_RECEIPT.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = INSTALL_RECEIPT.json; sourceTree = "<group>"; };
+		C7A543261FDC33D20085F4E4 /* glfw3Config.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = glfw3Config.cmake; sourceTree = "<group>"; };
+		C7A543271FDC33D20085F4E4 /* glfw3ConfigVersion.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = glfw3ConfigVersion.cmake; sourceTree = "<group>"; };
+		C7A543281FDC33D20085F4E4 /* glfw3Targets-release.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = "glfw3Targets-release.cmake"; sourceTree = "<group>"; };
+		C7A543291FDC33D20085F4E4 /* glfw3Targets.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = glfw3Targets.cmake; sourceTree = "<group>"; };
+		C7A5432A1FDC33D20085F4E4 /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libglfw.3.2.dylib; sourceTree = "<group>"; };
+		C7A5432B1FDC33D20085F4E4 /* libglfw.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libglfw.3.dylib; sourceTree = "<group>"; };
+		C7A5432C1FDC33D20085F4E4 /* libglfw.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libglfw.dylib; sourceTree = "<group>"; };
+		C7A5432E1FDC33D20085F4E4 /* glfw3.pc */ = {isa = PBXFileReference; lastKnownFileType = text; path = glfw3.pc; sourceTree = "<group>"; };
+		C7A5432F1FDC33D20085F4E4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7A543031FDC2A0F0085F4E4 /* libglfw.3.2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,8 +62,10 @@
 		C7633A621FDC0A43000F7EAE = {
 			isa = PBXGroup;
 			children = (
+				C7A543101FDC33D20085F4E4 /* libs */,
 				C7633A6D1FDC0A43000F7EAE /* opengl_test_proj */,
 				C7633A6C1FDC0A43000F7EAE /* Products */,
+				C7A543001FDC295F0085F4E4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +83,150 @@
 				C7633A6E1FDC0A43000F7EAE /* main.cpp */,
 			);
 			path = opengl_test_proj;
+			sourceTree = "<group>";
+		};
+		C7A543001FDC295F0085F4E4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C7A543021FDC2A0F0085F4E4 /* libglfw.3.2.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C7A543101FDC33D20085F4E4 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				C7A543111FDC33D20085F4E4 /* glad */,
+				C7A543191FDC33D20085F4E4 /* glfw */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		C7A543111FDC33D20085F4E4 /* glad */ = {
+			isa = PBXGroup;
+			children = (
+				C7A543121FDC33D20085F4E4 /* include */,
+				C7A543171FDC33D20085F4E4 /* src */,
+			);
+			path = glad;
+			sourceTree = "<group>";
+		};
+		C7A543121FDC33D20085F4E4 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				C7A543131FDC33D20085F4E4 /* glad */,
+				C7A543151FDC33D20085F4E4 /* KHR */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		C7A543131FDC33D20085F4E4 /* glad */ = {
+			isa = PBXGroup;
+			children = (
+				C7A543141FDC33D20085F4E4 /* glad.h */,
+			);
+			path = glad;
+			sourceTree = "<group>";
+		};
+		C7A543151FDC33D20085F4E4 /* KHR */ = {
+			isa = PBXGroup;
+			children = (
+				C7A543161FDC33D20085F4E4 /* khrplatform.h */,
+			);
+			path = KHR;
+			sourceTree = "<group>";
+		};
+		C7A543171FDC33D20085F4E4 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				C7A543181FDC33D20085F4E4 /* glad.c */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		C7A543191FDC33D20085F4E4 /* glfw */ = {
+			isa = PBXGroup;
+			children = (
+				C7A5431A1FDC33D20085F4E4 /* 3.2.1 */,
+			);
+			path = glfw;
+			sourceTree = "<group>";
+		};
+		C7A5431A1FDC33D20085F4E4 /* 3.2.1 */ = {
+			isa = PBXGroup;
+			children = (
+				C7A5431B1FDC33D20085F4E4 /* .brew */,
+				C7A5431D1FDC33D20085F4E4 /* COPYING.txt */,
+				C7A5431E1FDC33D20085F4E4 /* include */,
+				C7A543221FDC33D20085F4E4 /* INSTALL_RECEIPT.json */,
+				C7A543231FDC33D20085F4E4 /* lib */,
+				C7A5432F1FDC33D20085F4E4 /* README.md */,
+			);
+			path = 3.2.1;
+			sourceTree = "<group>";
+		};
+		C7A5431B1FDC33D20085F4E4 /* .brew */ = {
+			isa = PBXGroup;
+			children = (
+				C7A5431C1FDC33D20085F4E4 /* glfw.rb */,
+			);
+			path = .brew;
+			sourceTree = "<group>";
+		};
+		C7A5431E1FDC33D20085F4E4 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				C7A5431F1FDC33D20085F4E4 /* GLFW */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		C7A5431F1FDC33D20085F4E4 /* GLFW */ = {
+			isa = PBXGroup;
+			children = (
+				C7A543201FDC33D20085F4E4 /* glfw3.h */,
+				C7A543211FDC33D20085F4E4 /* glfw3native.h */,
+			);
+			path = GLFW;
+			sourceTree = "<group>";
+		};
+		C7A543231FDC33D20085F4E4 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				C7A543241FDC33D20085F4E4 /* cmake */,
+				C7A5432A1FDC33D20085F4E4 /* libglfw.3.2.dylib */,
+				C7A5432B1FDC33D20085F4E4 /* libglfw.3.dylib */,
+				C7A5432C1FDC33D20085F4E4 /* libglfw.dylib */,
+				C7A5432D1FDC33D20085F4E4 /* pkgconfig */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		C7A543241FDC33D20085F4E4 /* cmake */ = {
+			isa = PBXGroup;
+			children = (
+				C7A543251FDC33D20085F4E4 /* glfw3 */,
+			);
+			path = cmake;
+			sourceTree = "<group>";
+		};
+		C7A543251FDC33D20085F4E4 /* glfw3 */ = {
+			isa = PBXGroup;
+			children = (
+				C7A543261FDC33D20085F4E4 /* glfw3Config.cmake */,
+				C7A543271FDC33D20085F4E4 /* glfw3ConfigVersion.cmake */,
+				C7A543281FDC33D20085F4E4 /* glfw3Targets-release.cmake */,
+				C7A543291FDC33D20085F4E4 /* glfw3Targets.cmake */,
+			);
+			path = glfw3;
+			sourceTree = "<group>";
+		};
+		C7A5432D1FDC33D20085F4E4 /* pkgconfig */ = {
+			isa = PBXGroup;
+			children = (
+				C7A5432E1FDC33D20085F4E4 /* glfw3.pc */,
+			);
+			path = pkgconfig;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7633A6F1FDC0A43000F7EAE /* main.cpp in Sources */,
+				C7A543301FDC33E70085F4E4 /* glad.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,20 +400,31 @@
 		C7633A731FDC0A43000F7EAE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RQ8948VJT6;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs/glfw/3.2.1/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "$(PROJECT_DIR)/libs/glfw/3.2.1/include/** $(PROJECT_DIR)/libs/glad/include";
 			};
 			name = Debug;
 		};
 		C7633A741FDC0A43000F7EAE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RQ8948VJT6;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs/glfw/3.2.1/lib",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
