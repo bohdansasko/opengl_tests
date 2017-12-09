@@ -70,6 +70,7 @@ void windowResizeCallback(GLFWwindow* window, int width, int height) {
 
 void processInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, true);
+        glClearColor(1.0f, 0.1f, 0.1f, 1.01);
+        glClear(GL_COLOR_BUFFER_BIT);
     }
 }
