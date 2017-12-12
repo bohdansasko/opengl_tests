@@ -9,12 +9,15 @@
 
 using namespace std;
 
-const string& ShaderController::getShaderSource(const string& shaderFilename) {
+const string ShaderController::getShaderSource(const string& shaderFilename) {
     ifstream t(shaderFilename);
-    string content(
-            (std::istreambuf_iterator<char>(t)),
-            std::istreambuf_iterator<char>()
-    );
+    if (t.is_open()) {
+        string content(
+                (std::istreambuf_iterator<char>(t)),
+                (std::istreambuf_iterator<char>())
+        );
+        return content;
+    }
 
-    return content;
+    return "";
 }

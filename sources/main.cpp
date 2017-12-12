@@ -14,11 +14,11 @@
 using namespace std;
 
 struct Size {
-    int width;
-    int height;
+    uint width;
+    uint height;
 };
 
-Size windowSize { 1136, 640 };
+Size windowSize { 800, 600 };
 
 enum MAIN_FUNC_STATUS {
     SUCCESS = 0,
@@ -29,6 +29,18 @@ enum CheckStatusType {
     Compiling,
     Linking
 };
+
+float vertices[] = {
+        -0.5f, -0.5f, 0.0f, // left
+         0.5f, -0.5f, 0.0f, // right
+         0.0f,  0.5f, 0.0f  // top
+};
+
+uint vaoUniqueID1, vboUniqueID1;
+
+uint vertexShaderId;
+uint fragmentShaderId;
+uint shaderProgramId;
 
 void windowResizeCallback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -41,7 +53,9 @@ int main(int argc, const char * argv[]) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
 
     GLFWwindow* mainWindowPtr = glfwCreateWindow(windowSize.width, windowSize.height, "OpenGL Game", nullptr, nullptr);
     if (!mainWindowPtr) {
@@ -50,26 +64,33 @@ int main(int argc, const char * argv[]) {
         return MAIN_FUNC_STATUS::FAIL;
     }
     glfwMakeContextCurrent(mainWindowPtr);
+    glfwSetFramebufferSizeCallback(mainWindowPtr, windowResizeCallback);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         cout << "Failed to initialize GLAD" << endl;
         return MAIN_FUNC_STATUS ::FAIL;
     }
 
-    glViewport(0, 0, windowSize.width, windowSize.height);
-    glfwSetFramebufferSizeCallback(mainWindowPtr, windowResizeCallback);
-
     addShaderProgram();
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // uncomment this call to draw in wireframe polygons.
 
     while(!glfwWindowShouldClose(mainWindowPtr)) {
         processInput(mainWindowPtr);
 
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glUseProgram(shaderProgramId);
+        glBindVertexArray(vaoUniqueID1);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
         glfwSwapBuffers(mainWindowPtr);
         glfwPollEvents();
     }
+
+    glDeleteVertexArrays(1, &vaoUniqueID1);
+    glDeleteBuffers(1, &vboUniqueID1);
 
     glfwTerminate();
 
@@ -88,38 +109,42 @@ void processInput(GLFWwindow* window) {
 }
 
 void addShaderProgram() {
-    float vertices[] = {
-            -0.5f, -0.5f, 0.0f,
-            0.0f,  0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f
-    };
-
-    uint vboUniqueID1;
-    glGenBuffers(1, &vboUniqueID1);
-    glBindBuffer(GL_ARRAY_BUFFER, vboUniqueID1);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    const GLchar* vertexShaderSource = ShaderController::getShaderSource("vertexShader.vrsh").c_str();
-    uint vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
+    string content = ShaderController::getShaderSource("vertexShader.vrsh");
+    const GLchar* vertexShaderSource = content.c_str();
+    vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShaderId, 1, &vertexShaderSource, nullptr);
     glCompileShader(vertexShaderId);
     checkShaderStatus(vertexShaderId, CheckStatusType::Compiling);
 
-    const GLchar* fragmentShaderSource = ShaderController::getShaderSource("fragShader.frsh").c_str();
-    uint fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
+    string content1 = ShaderController::getShaderSource("fragShader.frsh");
+    const GLchar* fragmentShaderSource = content1.c_str();
+    fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShaderId, 1, &fragmentShaderSource, nullptr);
     glCompileShader(fragmentShaderId);
     checkShaderStatus(fragmentShaderId, CheckStatusType::Compiling);
 
-    uint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShaderId);
-    glAttachShader(shaderProgram, fragmentShaderId);
-    glLinkProgram(shaderProgram);
-    glUseProgram(shaderProgram);
+    shaderProgramId = glCreateProgram();
+    glAttachShader(shaderProgramId, vertexShaderId);
+    glAttachShader(shaderProgramId, fragmentShaderId);
+    glLinkProgram(shaderProgramId);
+    checkShaderStatus(shaderProgramId, CheckStatusType::Linking);
 
     glDeleteShader(vertexShaderId);
     glDeleteShader(fragmentShaderId);
-    //checkShaderStatus(shaderProgram, CheckStatusType::Linking);
+
+    glGenBuffers(1, &vboUniqueID1);
+    glGenVertexArrays(1, &vaoUniqueID1);
+
+    glBindVertexArray(vaoUniqueID1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vboUniqueID1);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
 void checkShaderStatus(uint shaderId, CheckStatusType statusType) {
@@ -136,6 +161,7 @@ void checkShaderStatus(uint shaderId, CheckStatusType statusType) {
 
     int success;
     char infoLog[512];
+
     switch (statusType) {
         case CheckStatusType::Linking:
             glGetProgramiv(shaderId, status, &success);
@@ -150,12 +176,13 @@ void checkShaderStatus(uint shaderId, CheckStatusType statusType) {
         switch (statusType) {
             case CheckStatusType::Linking:
                 glGetProgramInfoLog(shaderId, 512, nullptr, infoLog);
+                cout << "ERROR => Shader Linking => status: " << infoLog << endl;
                 break;
             case CheckStatusType::Compiling:
             default:
                 glGetShaderInfoLog(shaderId, 512, nullptr, infoLog);
+                cout << "ERROR => Shader Compilation => status: " << infoLog << endl;
                 break;
         }
-        cout << "ERROR => Shader Compilation => status: " << infoLog << endl;
     }
 }

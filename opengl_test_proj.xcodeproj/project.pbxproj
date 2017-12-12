@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2049E9A81FE0939F001FA699 /* vertexShader.vrsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 36712FF4F56DDC057411AFF7 /* vertexShader.vrsh */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		2049E9A91FE0939F001FA699 /* fragShader.frsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 36712187DC7C7E44F687636E /* fragShader.frsh */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		20ABDF7F1FDC9B4A00791ABE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 20ABDF7E1FDC9AF700791ABE /* main.cpp */; };
 		36712B83CBC097FC07191117 /* ShaderController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36712BA416FFEE40A5DA429C /* ShaderController.cpp */; };
 		C7A543031FDC2A0F0085F4E4 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A543021FDC2A0F0085F4E4 /* libglfw.3.2.dylib */; };
@@ -14,6 +16,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		2049E9A71FE09392001FA699 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				2049E9A81FE0939F001FA699 /* vertexShader.vrsh in CopyFiles */,
+				2049E9A91FE0939F001FA699 /* fragShader.frsh in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C7633A691FDC0A43000F7EAE /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -256,6 +269,7 @@
 				C7633A671FDC0A43000F7EAE /* Sources */,
 				C7633A681FDC0A43000F7EAE /* Frameworks */,
 				C7633A691FDC0A43000F7EAE /* CopyFiles */,
+				2049E9A71FE09392001FA699 /* CopyFiles */,
 			);
 			buildRules = (
 			);

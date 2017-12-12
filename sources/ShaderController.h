@@ -12,7 +12,7 @@ using std::string;
 
 class ShaderController {
 public:
-    static const string& getShaderSource(const string& shaderfilename);
+    static const string getShaderSource(const string& shaderfilename);
 };
 
 
