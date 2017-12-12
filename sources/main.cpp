@@ -25,27 +25,15 @@ enum MAIN_FUNC_STATUS {
     FAIL = -1
 };
 
-enum CheckStatusType {
-    Compiling,
-    Linking
-};
-
 float vertices[] = {
-        -0.5f, -0.5f, 0.0f, // left
-         0.5f, -0.5f, 0.0f, // right
-         0.0f,  0.5f, 0.0f  // top
+    -0.5f, -0.5f, 0.0f, // left
+     0.5f, -0.5f, 0.0f, // right
+     0.0f,  0.5f, 0.0f  // top
 };
-
-uint vaoUniqueID1, vboUniqueID1;
-
-uint vertexShaderId;
-uint fragmentShaderId;
-uint shaderProgramId;
 
 void windowResizeCallback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
-void checkShaderStatus(uint shaderId, CheckStatusType statusType);
-void addShaderProgram();
+uint getShaderProgram();
 
 int main(int argc, const char * argv[]) {
     glfwInit();
@@ -71,7 +59,23 @@ int main(int argc, const char * argv[]) {
         return MAIN_FUNC_STATUS ::FAIL;
     }
 
-    addShaderProgram();
+    uint vaoUniqueId1, vboUniqueId1;
+
+    glGenBuffers(1, &vboUniqueId1);
+    glGenVertexArrays(1, &vaoUniqueId1);
+
+    glBindVertexArray(vaoUniqueId1);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vboUniqueId1);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    uint shaderProgramId = getShaderProgram();
 
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // uncomment this call to draw in wireframe polygons.
 
@@ -82,15 +86,15 @@ int main(int argc, const char * argv[]) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shaderProgramId);
-        glBindVertexArray(vaoUniqueID1);
+        glBindVertexArray(vaoUniqueId1);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(mainWindowPtr);
         glfwPollEvents();
     }
 
-    glDeleteVertexArrays(1, &vaoUniqueID1);
-    glDeleteBuffers(1, &vboUniqueID1);
+    glDeleteVertexArrays(1, &vaoUniqueId1);
+    glDeleteBuffers(1, &vboUniqueId1);
 
     glfwTerminate();
 
@@ -108,81 +112,33 @@ void processInput(GLFWwindow* window) {
     }
 }
 
-void addShaderProgram() {
+uint getShaderProgram() {
+    uint vertexShaderId;
+    uint fragmentShaderId;
+
     string content = ShaderController::getShaderSource("vertexShader.vrsh");
     const GLchar* vertexShaderSource = content.c_str();
     vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShaderId, 1, &vertexShaderSource, nullptr);
     glCompileShader(vertexShaderId);
-    checkShaderStatus(vertexShaderId, CheckStatusType::Compiling);
+    ShaderController::showShaderStatus(vertexShaderId, CheckStatusType::Compiling);
 
     string content1 = ShaderController::getShaderSource("fragShader.frsh");
     const GLchar* fragmentShaderSource = content1.c_str();
     fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShaderId, 1, &fragmentShaderSource, nullptr);
     glCompileShader(fragmentShaderId);
-    checkShaderStatus(fragmentShaderId, CheckStatusType::Compiling);
+    ShaderController::showShaderStatus(fragmentShaderId, CheckStatusType::Compiling);
 
-    shaderProgramId = glCreateProgram();
+    uint shaderProgramId = glCreateProgram();
     glAttachShader(shaderProgramId, vertexShaderId);
     glAttachShader(shaderProgramId, fragmentShaderId);
     glLinkProgram(shaderProgramId);
-    checkShaderStatus(shaderProgramId, CheckStatusType::Linking);
+    ShaderController::showShaderStatus(shaderProgramId, CheckStatusType::Linking);
 
     glDeleteShader(vertexShaderId);
     glDeleteShader(fragmentShaderId);
 
-    glGenBuffers(1, &vboUniqueID1);
-    glGenVertexArrays(1, &vaoUniqueID1);
-
-    glBindVertexArray(vaoUniqueID1);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vboUniqueID1);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    return shaderProgramId;
 }
 
-void checkShaderStatus(uint shaderId, CheckStatusType statusType) {
-    uint status;
-    switch (statusType) {
-        case CheckStatusType::Linking:
-            status = GL_LINK_STATUS;
-            break;
-        case CheckStatusType::Compiling:
-        default:
-            status = GL_COMPILE_STATUS;
-            break;
-    }
-
-    int success;
-    char infoLog[512];
-
-    switch (statusType) {
-        case CheckStatusType::Linking:
-            glGetProgramiv(shaderId, status, &success);
-            break;
-        case CheckStatusType::Compiling:
-        default:
-            glGetShaderiv(shaderId, status, &success);
-            break;
-    }
-
-    if (!success) {
-        switch (statusType) {
-            case CheckStatusType::Linking:
-                glGetProgramInfoLog(shaderId, 512, nullptr, infoLog);
-                cout << "ERROR => Shader Linking => status: " << infoLog << endl;
-                break;
-            case CheckStatusType::Compiling:
-            default:
-                glGetShaderInfoLog(shaderId, 512, nullptr, infoLog);
-                cout << "ERROR => Shader Compilation => status: " << infoLog << endl;
-                break;
-        }
-    }
-}

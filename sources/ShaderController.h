@@ -10,9 +10,19 @@
 
 using std::string;
 
+enum class CheckStatusType {
+    Compiling,
+    Linking
+};
+
 class ShaderController {
 public:
     static const string getShaderSource(const string& shaderfilename);
+    static void showShaderStatus(uint shaderId, CheckStatusType statusType);
+
+private:
+    static void checkShaderCompileStatus(uint shaderId);
+    static void checkShaderLinkStatus(uint shaderId);
 };
 
 
