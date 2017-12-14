@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2049E9A81FE0939F001FA699 /* vertexShader.vrsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 36712FF4F56DDC057411AFF7 /* vertexShader.vrsh */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		2049E9A91FE0939F001FA699 /* fragShader.frsh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 36712187DC7C7E44F687636E /* fragShader.frsh */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		2038C89E1FE32A4000CD3710 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2038C89D1FE32A3F00CD3710 /* shaders */; };
 		20ABDF7F1FDC9B4A00791ABE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 20ABDF7E1FDC9AF700791ABE /* main.cpp */; };
 		36712B83CBC097FC07191117 /* ShaderController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36712BA416FFEE40A5DA429C /* ShaderController.cpp */; };
 		C7A543031FDC2A0F0085F4E4 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A543021FDC2A0F0085F4E4 /* libglfw.3.2.dylib */; };
@@ -22,8 +21,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				2049E9A81FE0939F001FA699 /* vertexShader.vrsh in CopyFiles */,
-				2049E9A91FE0939F001FA699 /* fragShader.frsh in CopyFiles */,
+				2038C89E1FE32A4000CD3710 /* shaders in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,11 +37,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2038C89D1FE32A3F00CD3710 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
 		20ABDF7E1FDC9AF700791ABE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		36712187DC7C7E44F687636E /* fragShader.frsh */ = {isa = PBXFileReference; lastKnownFileType = file.frsh; path = fragShader.frsh; sourceTree = "<group>"; };
 		36712A902B4449173206140B /* ShaderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderController.h; sourceTree = "<group>"; };
 		36712BA416FFEE40A5DA429C /* ShaderController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderController.cpp; sourceTree = "<group>"; };
-		36712FF4F56DDC057411AFF7 /* vertexShader.vrsh */ = {isa = PBXFileReference; lastKnownFileType = file.vrsh; path = vertexShader.vrsh; sourceTree = "<group>"; };
 		C7633A6B1FDC0A43000F7EAE /* opengl_test_proj */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = opengl_test_proj; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7A543021FDC2A0F0085F4E4 /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.2.dylib; path = libs/glfw/3.2.1/lib/libglfw.3.2.dylib; sourceTree = "<group>"; };
 		C7A543141FDC33D20085F4E4 /* glad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glad.h; sourceTree = "<group>"; };
@@ -87,23 +84,14 @@
 			path = sources;
 			sourceTree = "<group>";
 		};
-		3671218B01BF9828B2E3EF67 /* shaders */ = {
-			isa = PBXGroup;
-			children = (
-				36712FF4F56DDC057411AFF7 /* vertexShader.vrsh */,
-				36712187DC7C7E44F687636E /* fragShader.frsh */,
-			);
-			path = shaders;
-			sourceTree = "<group>";
-		};
 		C7633A621FDC0A43000F7EAE = {
 			isa = PBXGroup;
 			children = (
+				2038C89D1FE32A3F00CD3710 /* shaders */,
 				20ABDF7D1FDC9AF700791ABE /* sources */,
 				C7A543101FDC33D20085F4E4 /* libs */,
 				C7633A6C1FDC0A43000F7EAE /* Products */,
 				C7A543001FDC295F0085F4E4 /* Frameworks */,
-				3671218B01BF9828B2E3EF67 /* shaders */,
 			);
 			sourceTree = "<group>";
 		};

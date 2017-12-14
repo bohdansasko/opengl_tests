@@ -28,8 +28,8 @@ enum MAIN_FUNC_STATUS {
 float vertices[] = {
     -0.5f,  0.5f, 0.0f, // top left
     -0.5f, -0.5f, 0.0f, // bottom left
-     0.5f,  0.5f, 0.0f, // top right
      0.5f, -0.5f, 0.0f, // bottom right
+     0.5f,  0.5f, 0.0f, // top right
 };
 
 uint indices[] = {
@@ -126,14 +126,14 @@ uint getShaderProgram() {
     uint vertexShaderId;
     uint fragmentShaderId;
 
-    string content = ShaderController::getShaderSource("vertexShader.vrsh");
+    string content = ShaderController::getShaderSource("shaders/vertexShader.vsh");
     const GLchar* vertexShaderSource = content.c_str();
     vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShaderId, 1, &vertexShaderSource, nullptr);
     glCompileShader(vertexShaderId);
     ShaderController::showShaderStatus(vertexShaderId, CheckStatusType::Compiling);
 
-    string content1 = ShaderController::getShaderSource("fragShader.frsh");
+    string content1 = ShaderController::getShaderSource("shaders/fragShader.fsh");
     const GLchar* fragmentShaderSource = content1.c_str();
     fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShaderId, 1, &fragmentShaderSource, nullptr);
