@@ -28,13 +28,13 @@ enum MAIN_FUNC_STATUS {
 float vertices[] = {
     -0.5f,  0.5f, 0.0f, // top left
     -0.5f, -0.5f, 0.0f, // bottom left
-     0.0f,  0.0f, 0.0f // center
+     0.0f,  0.0f, 0.0f  // center
 };
 
 float vertices1[] = {
      0.0f,  0.0f, 0.0f, // center
      0.5f,  0.5f, 0.0f, // top right
-     0.5f, -0.5f, 0.0f // bottom right
+     0.5f, -0.5f, 0.0f  // bottom right
 };
 
 void windowResizeCallback(GLFWwindow* window, int width, int height);
@@ -83,14 +83,14 @@ int main(int argc, const char * argv[]) {
     glBindVertexArray(vaoUniqueId2);
     glBindBuffer(GL_ARRAY_BUFFER, vboUniqueId2);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
     uint shaderProgramId = getShaderProgram("shaders/vertexShader.vsh", "shaders/fragShader.fsh");
-    uint shaderProgramId1 = getShaderProgram("shaders/vertexShaderYellowColor.vsh", "shaders/fragShaderYellowColor.fsh");
+//    uint shaderProgramId1 = getShaderProgram("shaders/vertexShaderYellowColor.vsh", "shaders/fragShaderYellowColor.fsh");
 
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // uncomment this call to draw in wireframe polygons.
 
@@ -101,14 +101,13 @@ int main(int argc, const char * argv[]) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shaderProgramId);
+
         glBindVertexArray(vaoUniqueId1);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         glBindVertexArray(0);
-//
-        glUseProgram(shaderProgramId1);
+
         glBindVertexArray(vaoUniqueId2);
         glDrawArrays(GL_TRIANGLES, 0, 3);
-        glBindVertexArray(0);
 
         glfwSwapBuffers(mainWindowPtr);
         glfwPollEvents();
