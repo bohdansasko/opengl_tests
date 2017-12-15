@@ -28,19 +28,18 @@ enum MAIN_FUNC_STATUS {
 float vertices[] = {
     -0.5f,  0.5f, 0.0f, // top left
     -0.5f, -0.5f, 0.0f, // bottom left
-     0.0f,  0.0f, 0.0f, // center
-     0.5f,  0.5f, 0.0f, // top right
-     0.5f, -0.5f, 0.0f, // bottom right
+     0.0f,  0.0f, 0.0f // center
 };
 
-uint indices[] = {
-    0, 1, 2, // first triangle
-    2, 3, 4  // second triangle
+float vertices1[] = {
+     0.0f,  0.0f, 0.0f, // center
+     0.5f,  0.5f, 0.0f, // top right
+     0.5f, -0.5f, 0.0f // bottom right
 };
 
 void windowResizeCallback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
-uint getShaderProgram();
+uint getShaderProgram(const string& vshFilename, const string& fshFilename);
 
 int main(int argc, const char * argv[]) {
     glfwInit();
@@ -66,27 +65,32 @@ int main(int argc, const char * argv[]) {
         return MAIN_FUNC_STATUS ::FAIL;
     }
 
-    uint vaoUniqueId1, vboUniqueId1, eboUniqueId1;
+    uint vaoUniqueId1, vaoUniqueId2;
+    uint vboUniqueId1, vboUniqueId2;
 
     glGenBuffers(1, &vboUniqueId1);
-    glGenBuffers(1, &eboUniqueId1);
+    glGenBuffers(1, &vboUniqueId2);
+
     glGenVertexArrays(1, &vaoUniqueId1);
+    glGenVertexArrays(1, &vaoUniqueId2);
 
     glBindVertexArray(vaoUniqueId1);
-
     glBindBuffer(GL_ARRAY_BUFFER, vboUniqueId1);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboUniqueId1);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    glBindVertexArray(vaoUniqueId2);
+    glBindBuffer(GL_ARRAY_BUFFER, vboUniqueId2);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    uint shaderProgramId = getShaderProgram();
+    uint shaderProgramId = getShaderProgram("shaders/vertexShader.vsh", "shaders/fragShader.fsh");
+    uint shaderProgramId1 = getShaderProgram("shaders/vertexShaderYellowColor.vsh", "shaders/fragShaderYellowColor.fsh");
 
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // uncomment this call to draw in wireframe polygons.
 
@@ -98,7 +102,13 @@ int main(int argc, const char * argv[]) {
 
         glUseProgram(shaderProgramId);
         glBindVertexArray(vaoUniqueId1);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glBindVertexArray(0);
+//
+        glUseProgram(shaderProgramId1);
+        glBindVertexArray(vaoUniqueId2);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glBindVertexArray(0);
 
         glfwSwapBuffers(mainWindowPtr);
         glfwPollEvents();
@@ -106,6 +116,9 @@ int main(int argc, const char * argv[]) {
 
     glDeleteVertexArrays(1, &vaoUniqueId1);
     glDeleteBuffers(1, &vboUniqueId1);
+
+    glDeleteVertexArrays(1, &vaoUniqueId2);
+    glDeleteBuffers(1, &vboUniqueId2);
 
     glfwTerminate();
 
@@ -123,18 +136,18 @@ void processInput(GLFWwindow* window) {
     }
 }
 
-uint getShaderProgram() {
+uint getShaderProgram(const string& vshFilename, const string& fshFilename) {
     uint vertexShaderId;
     uint fragmentShaderId;
 
-    string content = ShaderController::getShaderSource("shaders/vertexShader.vsh");
+    string content = ShaderController::getShaderSource(vshFilename);
     const GLchar* vertexShaderSource = content.c_str();
     vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShaderId, 1, &vertexShaderSource, nullptr);
     glCompileShader(vertexShaderId);
     ShaderController::showShaderStatus(vertexShaderId, CheckStatusType::Compiling);
 
-    string content1 = ShaderController::getShaderSource("shaders/fragShader.fsh");
+    string content1 = ShaderController::getShaderSource(fshFilename);
     const GLchar* fragmentShaderSource = content1.c_str();
     fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShaderId, 1, &fragmentShaderSource, nullptr);
