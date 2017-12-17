@@ -7,6 +7,7 @@
 #define OPEN_GL_TEST_PROJ_SHADER_H
 
 #include <iostream>
+#include <string>
 
 using std::string;
 
@@ -17,6 +18,16 @@ enum class CheckStatusType {
 
 class Shader {
 public:
+    uint ProgramID;
+
+    Shader(const string& vShaderPath, const string& fShaderPath);
+
+    void use();
+
+    void setBool(const string& name, bool value);
+    void setInt(const string& name, int value);
+    void setFloat(const string& name, float value);
+
     static const string getShaderSource(const string& shaderfilename);
     static void showShaderStatus(uint shaderId, CheckStatusType statusType);
 

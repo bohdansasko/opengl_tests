@@ -35,7 +35,6 @@ float vertices[] = {
 
 void windowResizeCallback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
-uint getShaderProgram(const string& vshFilename, const string& fshFilename);
 
 int main(int argc, const char * argv[]) {
     glfwInit();
@@ -81,8 +80,8 @@ int main(int argc, const char * argv[]) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    uint shaderProgramId = getShaderProgram("shaders/vertexShader.vsh", "shaders/fragShader.fsh");
-//    uint shaderProgramId1 = getShaderProgram("shaders/vertexShaderYellowColor.vsh", "shaders/fragShaderYellowColor.fsh");
+    auto shaderObj1 = Shader("shaders/vertexShader.vsh", "shaders/fragShader.fsh");
+//    auto shaderObj2 = Shader("shaders/vertexShaderYellowColor.vsh", "shaders/fragShaderYellowColor.fsh");
 
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // uncomment this call to draw in wireframe polygons.
 
@@ -92,7 +91,7 @@ int main(int argc, const char * argv[]) {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glUseProgram(shaderProgramId);
+        shaderObj1.use();
         glBindVertexArray(vaoUniqueId1);
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -121,34 +120,3 @@ void processInput(GLFWwindow* window) {
         glClear(GL_COLOR_BUFFER_BIT);
     }
 }
-
-uint getShaderProgram(const string& vshFilename, const string& fshFilename) {
-    uint vertexShaderId;
-    uint fragmentShaderId;
-
-    string content = Shader::getShaderSource(vshFilename);
-    const GLchar* vertexShaderSource = content.c_str();
-    vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShaderId, 1, &vertexShaderSource, nullptr);
-    glCompileShader(vertexShaderId);
-    Shader::showShaderStatus(vertexShaderId, CheckStatusType::Compiling);
-
-    string content1 = Shader::getShaderSource(fshFilename);
-    const GLchar* fragmentShaderSource = content1.c_str();
-    fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShaderId, 1, &fragmentShaderSource, nullptr);
-    glCompileShader(fragmentShaderId);
-    Shader::showShaderStatus(fragmentShaderId, CheckStatusType::Compiling);
-
-    uint shaderProgramId = glCreateProgram();
-    glAttachShader(shaderProgramId, vertexShaderId);
-    glAttachShader(shaderProgramId, fragmentShaderId);
-    glLinkProgram(shaderProgramId);
-    Shader::showShaderStatus(shaderProgramId, CheckStatusType::Linking);
-
-    glDeleteShader(vertexShaderId);
-    glDeleteShader(fragmentShaderId);
-
-    return shaderProgramId;
-}
-

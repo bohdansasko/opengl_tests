@@ -10,6 +10,50 @@
 
 using namespace std;
 
+Shader::Shader(const string& vShaderPath, const string& fShaderPath) {
+    const string& vShaderSourceCode = Shader::getShaderSource(vShaderPath);
+    auto vShaderId = glCreateShader(GL_VERTEX_SHADER);
+    const GLchar* vSource = vShaderSourceCode.c_str();
+    glShaderSource(vShaderId, 1, &vSource, nullptr);
+    glCompileShader(vShaderId);
+    Shader::showShaderStatus(vShaderId, CheckStatusType::Compiling);
+
+    const string& fragmentShaderSource = Shader::getShaderSource(fShaderPath);
+    const GLchar* fSource = fragmentShaderSource.c_str();
+    auto fShaderId = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fShaderId, 1, &fSource, nullptr);
+    glCompileShader(fShaderId);
+    Shader::showShaderStatus(fShaderId, CheckStatusType::Compiling);
+
+    ProgramID = glCreateProgram();
+    glAttachShader(ProgramID, vShaderId);
+    glAttachShader(ProgramID, fShaderId);
+    glLinkProgram(ProgramID);
+    Shader::showShaderStatus(ProgramID, CheckStatusType::Linking);
+
+    glDeleteShader(vShaderId);
+    glDeleteShader(fShaderId);
+}
+
+void Shader::use() {
+    glUseProgram(ProgramID);
+}
+
+void Shader::setBool(const string &name, bool value) {
+    auto layoutId = glGetUniformLocation(ProgramID, name.c_str());
+    glUniform1i(layoutId, static_cast<int>(value));
+}
+
+void Shader::setInt(const string &name, int value) {
+    auto layoutId = glGetUniformLocation(ProgramID, name.c_str());
+    glUniform1i(layoutId, value);
+}
+
+void Shader::setFloat(const string &name, float value) {
+    auto layoutId = glGetUniformLocation(ProgramID, name.c_str());
+    glUniform1f(layoutId, value);
+}
+
 const string Shader::getShaderSource(const string& shaderFilename) {
     ifstream t(shaderFilename);
     if (t.is_open()) {
