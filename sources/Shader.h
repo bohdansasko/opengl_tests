@@ -28,6 +28,8 @@ public:
     void setInt(const string& name, int value);
     void setFloat(const string& name, float value);
 
+    void setVec3(const string& name, float value0, float value1, float value2);
+
     static const string getShaderSource(const string& shaderfilename);
     static void showShaderStatus(uint shaderId, CheckStatusType statusType);
 

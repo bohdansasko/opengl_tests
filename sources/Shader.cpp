@@ -54,6 +54,11 @@ void Shader::setFloat(const string &name, float value) {
     glUniform1f(layoutId, value);
 }
 
+void Shader::setVec3(const string& name, float value0, float value1, float value2) {
+    auto layoutId = glGetUniformLocation(ProgramID, name.c_str());
+    glUniform3f(layoutId, value0, value1, value2);
+}
+
 const string Shader::getShaderSource(const string& shaderFilename) {
     ifstream t(shaderFilename);
     if (t.is_open()) {

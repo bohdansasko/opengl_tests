@@ -85,6 +85,9 @@ int main(int argc, const char * argv[]) {
 
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // uncomment this call to draw in wireframe polygons.
 
+    float trianglePosX = 0.0f;
+    float stepOffsetXTriangle = 0.002f;
+
     while(!glfwWindowShouldClose(mainWindowPtr)) {
         processInput(mainWindowPtr);
 
@@ -92,6 +95,7 @@ int main(int argc, const char * argv[]) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         shaderObj1.use();
+        shaderObj1.setVec3("triangleOffset", trianglePosX, 0, 0);
         glBindVertexArray(vaoUniqueId1);
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -100,6 +104,11 @@ int main(int argc, const char * argv[]) {
 
         glfwSwapBuffers(mainWindowPtr);
         glfwPollEvents();
+
+        trianglePosX += stepOffsetXTriangle;
+        if (trianglePosX > 0.5 || trianglePosX < -0.5) {
+            stepOffsetXTriangle *= -1;
+        }
     }
 
     glDeleteVertexArrays(1, &vaoUniqueId1);
