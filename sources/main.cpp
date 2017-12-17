@@ -2,14 +2,15 @@
 //  main.cpp
 //  opengl_test_proj
 //
-//  Created by TQOS on 09.12.17.
+//  Created by TQOS on 09.12.17. 
 //  Copyright © 2017 TQOS. All rights reserved.
 //
 
 #include <iostream>
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-#include "ShaderController.h"
+#include "Shader.h"
+#include <cmath>
 
 using namespace std;
 
@@ -26,15 +27,10 @@ enum MAIN_FUNC_STATUS {
 };
 
 float vertices[] = {
-    -0.5f,  0.5f, 0.0f, // top left
-    -0.5f, -0.5f, 0.0f, // bottom left
-     0.0f,  0.0f, 0.0f  // center
-};
-
-float vertices1[] = {
-     0.0f,  0.0f, 0.0f, // center
-     0.5f,  0.5f, 0.0f, // top right
-     0.5f, -0.5f, 0.0f  // bottom right
+        // positions      // colors
+     0.0f,  0.5f, 0.0f,   1.0f,  0.0f, 0.0f,     // top left
+    -0.5f, -0.5f, 0.0f,   0.0f,  1.0f, 0.0f,      // bottom left
+     0.5f, -0.5f, 0.0f,   0.0f,  0.0f, 1.0f      // center
 };
 
 void windowResizeCallback(GLFWwindow* window, int width, int height);
@@ -65,26 +61,22 @@ int main(int argc, const char * argv[]) {
         return MAIN_FUNC_STATUS ::FAIL;
     }
 
-    uint vaoUniqueId1, vaoUniqueId2;
-    uint vboUniqueId1, vboUniqueId2;
+    uint vaoUniqueId1;
+    uint vboUniqueId1;
 
     glGenBuffers(1, &vboUniqueId1);
-    glGenBuffers(1, &vboUniqueId2);
 
     glGenVertexArrays(1, &vaoUniqueId1);
-    glGenVertexArrays(1, &vaoUniqueId2);
 
     glBindVertexArray(vaoUniqueId1);
     glBindBuffer(GL_ARRAY_BUFFER, vboUniqueId1);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glBindVertexArray(vaoUniqueId2);
-    glBindBuffer(GL_ARRAY_BUFFER, vboUniqueId2);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -101,13 +93,11 @@ int main(int argc, const char * argv[]) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shaderProgramId);
-
         glBindVertexArray(vaoUniqueId1);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        glBindVertexArray(0);
 
-        glBindVertexArray(vaoUniqueId2);
         glDrawArrays(GL_TRIANGLES, 0, 3);
+
+        glBindVertexArray(0);
 
         glfwSwapBuffers(mainWindowPtr);
         glfwPollEvents();
@@ -115,9 +105,6 @@ int main(int argc, const char * argv[]) {
 
     glDeleteVertexArrays(1, &vaoUniqueId1);
     glDeleteBuffers(1, &vboUniqueId1);
-
-    glDeleteVertexArrays(1, &vaoUniqueId2);
-    glDeleteBuffers(1, &vboUniqueId2);
 
     glfwTerminate();
 
@@ -139,25 +126,25 @@ uint getShaderProgram(const string& vshFilename, const string& fshFilename) {
     uint vertexShaderId;
     uint fragmentShaderId;
 
-    string content = ShaderController::getShaderSource(vshFilename);
+    string content = Shader::getShaderSource(vshFilename);
     const GLchar* vertexShaderSource = content.c_str();
     vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShaderId, 1, &vertexShaderSource, nullptr);
     glCompileShader(vertexShaderId);
-    ShaderController::showShaderStatus(vertexShaderId, CheckStatusType::Compiling);
+    Shader::showShaderStatus(vertexShaderId, CheckStatusType::Compiling);
 
-    string content1 = ShaderController::getShaderSource(fshFilename);
+    string content1 = Shader::getShaderSource(fshFilename);
     const GLchar* fragmentShaderSource = content1.c_str();
     fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShaderId, 1, &fragmentShaderSource, nullptr);
     glCompileShader(fragmentShaderId);
-    ShaderController::showShaderStatus(fragmentShaderId, CheckStatusType::Compiling);
+    Shader::showShaderStatus(fragmentShaderId, CheckStatusType::Compiling);
 
     uint shaderProgramId = glCreateProgram();
     glAttachShader(shaderProgramId, vertexShaderId);
     glAttachShader(shaderProgramId, fragmentShaderId);
     glLinkProgram(shaderProgramId);
-    ShaderController::showShaderStatus(shaderProgramId, CheckStatusType::Linking);
+    Shader::showShaderStatus(shaderProgramId, CheckStatusType::Linking);
 
     glDeleteShader(vertexShaderId);
     glDeleteShader(fragmentShaderId);

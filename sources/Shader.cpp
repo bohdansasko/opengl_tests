@@ -3,14 +3,14 @@
 // Copyright (c) 2017 TQOS. All rights reserved.
 //
 
-#include "ShaderController.h"
+#include "Shader.h"
 #include <fstream>
 #include <iostream>
 #include "glad/glad.h"
 
 using namespace std;
 
-const string ShaderController::getShaderSource(const string& shaderFilename) {
+const string Shader::getShaderSource(const string& shaderFilename) {
     ifstream t(shaderFilename);
     if (t.is_open()) {
         string content(
@@ -23,7 +23,7 @@ const string ShaderController::getShaderSource(const string& shaderFilename) {
     return "";
 }
 
-void ShaderController::showShaderStatus(uint shaderId, CheckStatusType statusType) {
+void Shader::showShaderStatus(uint shaderId, CheckStatusType statusType) {
     switch (statusType) {
         case CheckStatusType::Linking:
             checkShaderLinkStatus(shaderId);
@@ -35,7 +35,7 @@ void ShaderController::showShaderStatus(uint shaderId, CheckStatusType statusTyp
     }
 }
 
-void ShaderController::checkShaderCompileStatus(uint shaderId) {
+void Shader::checkShaderCompileStatus(uint shaderId) {
     int success;
     char infoLog[512];
 
@@ -47,7 +47,7 @@ void ShaderController::checkShaderCompileStatus(uint shaderId) {
     }
 }
 
-void ShaderController::checkShaderLinkStatus(uint shaderId) {
+void Shader::checkShaderLinkStatus(uint shaderId) {
     int success;
     char infoLog[512];
 

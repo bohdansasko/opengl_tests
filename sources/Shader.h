@@ -3,8 +3,8 @@
 // Copyright (c) 2017 TQOS. All rights reserved.
 //
 
-#ifndef OPENGL_TEST_PROJ_SHADERCONTROLLER_H
-#define OPENGL_TEST_PROJ_SHADERCONTROLLER_H
+#ifndef OPEN_GL_TEST_PROJ_SHADER_H
+#define OPEN_GL_TEST_PROJ_SHADER_H
 
 #include <iostream>
 
@@ -15,7 +15,7 @@ enum class CheckStatusType {
     Linking
 };
 
-class ShaderController {
+class Shader {
 public:
     static const string getShaderSource(const string& shaderfilename);
     static void showShaderStatus(uint shaderId, CheckStatusType statusType);
@@ -26,4 +26,4 @@ private:
 };
 
 
-#endif //OPENGL_TEST_PROJ_SHADERCONTROLLER_H
+#endif //OPEN_GL_TEST_PROJ_SHADER_H

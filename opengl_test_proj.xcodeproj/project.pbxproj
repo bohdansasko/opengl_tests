@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		2038C89E1FE32A4000CD3710 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2038C89D1FE32A3F00CD3710 /* shaders */; };
 		20ABDF7F1FDC9B4A00791ABE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 20ABDF7E1FDC9AF700791ABE /* main.cpp */; };
-		36712B83CBC097FC07191117 /* ShaderController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36712BA416FFEE40A5DA429C /* ShaderController.cpp */; };
+		36712B83CBC097FC07191117 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36712BA416FFEE40A5DA429C /* Shader.cpp */; };
 		C7A543031FDC2A0F0085F4E4 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A543021FDC2A0F0085F4E4 /* libglfw.3.2.dylib */; };
 		C7A543301FDC33E70085F4E4 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = C7A543181FDC33D20085F4E4 /* glad.c */; };
 /* End PBXBuildFile section */
@@ -39,8 +39,8 @@
 /* Begin PBXFileReference section */
 		2038C89D1FE32A3F00CD3710 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
 		20ABDF7E1FDC9AF700791ABE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		36712A902B4449173206140B /* ShaderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderController.h; sourceTree = "<group>"; };
-		36712BA416FFEE40A5DA429C /* ShaderController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderController.cpp; sourceTree = "<group>"; };
+		36712A902B4449173206140B /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
+		36712BA416FFEE40A5DA429C /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		C7633A6B1FDC0A43000F7EAE /* opengl_test_proj */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = opengl_test_proj; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7A543021FDC2A0F0085F4E4 /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.2.dylib; path = libs/glfw/3.2.1/lib/libglfw.3.2.dylib; sourceTree = "<group>"; };
 		C7A543141FDC33D20085F4E4 /* glad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = glad.h; sourceTree = "<group>"; };
@@ -78,8 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				20ABDF7E1FDC9AF700791ABE /* main.cpp */,
-				36712A902B4449173206140B /* ShaderController.h */,
-				36712BA416FFEE40A5DA429C /* ShaderController.cpp */,
+				36712A902B4449173206140B /* Shader.h */,
+				36712BA416FFEE40A5DA429C /* Shader.cpp */,
 			);
 			path = sources;
 			sourceTree = "<group>";
@@ -307,7 +307,7 @@
 			files = (
 				20ABDF7F1FDC9B4A00791ABE /* main.cpp in Sources */,
 				C7A543301FDC33E70085F4E4 /* glad.c in Sources */,
-				36712B83CBC097FC07191117 /* ShaderController.cpp in Sources */,
+				36712B83CBC097FC07191117 /* Shader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
