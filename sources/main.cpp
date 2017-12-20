@@ -10,7 +10,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Shader.h"
-#include <cmath>
+#include "stb_image.h"
 
 using namespace std;
 
@@ -26,11 +26,15 @@ enum MAIN_FUNC_STATUS {
     FAIL = -1
 };
 
-float vertices[] = {
+GLfloat vertices[] = {
         // positions      // colors
-     0.0f,  0.5f, 0.0f,   1.0f,  0.0f, 0.0f,     // top left
-    -0.5f, -0.5f, 0.0f,   0.0f,  1.0f, 0.0f,      // bottom left
-     0.5f, -0.5f, 0.0f,   0.0f,  0.0f, 1.0f      // center
+     0.0f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,    // top left
+    -0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,    // bottom left
+     0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.5f, 1.0f     // center
+};
+
+GLint indices[] = {
+    0, 1, 2
 };
 
 void windowResizeCallback(GLFWwindow* window, int width, int height);
@@ -62,31 +66,42 @@ int main(int argc, const char * argv[]) {
 
     uint vaoUniqueId1;
     uint vboUniqueId1;
+    uint eboUniqueId1;
 
     glGenBuffers(1, &vboUniqueId1);
-
+    glGenBuffers(1, &eboUniqueId1);
     glGenVertexArrays(1, &vaoUniqueId1);
 
     glBindVertexArray(vaoUniqueId1);
     glBindBuffer(GL_ARRAY_BUFFER, vboUniqueId1);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboUniqueId1);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    GLuint textureId;
+    glGenTextures(1, &textureId);
+    glBindTexture(GL_TEXTURE_2D, textureId);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
+    int width, height, nrChannels;
+    u_char* data = stbi_load("Resources/bricks_wall.jpg", &width, &height, &nrChannels, 0);
+    if (data) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    stbi_image_free(data);
 
     auto shaderObj1 = Shader("shaders/vertexShader.vsh", "shaders/fragShader.fsh");
-//    auto shaderObj2 = Shader("shaders/vertexShaderYellowColor.vsh", "shaders/fragShaderYellowColor.fsh");
 
 //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // uncomment this call to draw in wireframe polygons.
-
-    float trianglePosX = 0.0f;
-    float stepOffsetXTriangle = 0.002f;
 
     while(!glfwWindowShouldClose(mainWindowPtr)) {
         processInput(mainWindowPtr);
@@ -94,25 +109,21 @@ int main(int argc, const char * argv[]) {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        glBindTexture(GL_TEXTURE_2D, textureId);
+
         shaderObj1.use();
-        shaderObj1.setVec3("triangleOffset", trianglePosX, 0, 0);
+
         glBindVertexArray(vaoUniqueId1);
-
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
         glfwSwapBuffers(mainWindowPtr);
         glfwPollEvents();
-
-        trianglePosX += stepOffsetXTriangle;
-        if (trianglePosX > 0.5 || trianglePosX < -0.5) {
-            stepOffsetXTriangle *= -1;
-        }
     }
 
     glDeleteVertexArrays(1, &vaoUniqueId1);
     glDeleteBuffers(1, &vboUniqueId1);
+    glDeleteBuffers(1, &eboUniqueId1);
 
     glfwTerminate();
 

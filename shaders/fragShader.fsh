@@ -3,7 +3,11 @@
 out vec4 FragColor;
 
 in vec3 ourColor;
+in vec2 texCoord;
+
+uniform sampler2D bricksWallTexture;
 
 void main() {
-    FragColor = vec4(ourColor, 1.0);
+   float grayColor = (ourColor.x + ourColor.y + ourColor.z)/3;
+   FragColor = texture(bricksWallTexture, texCoord) * vec4(grayColor, grayColor, grayColor, 1.0);
 }
